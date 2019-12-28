@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:circular_bottom_navigation/circular_bottom_navigation.dart';
 
 import '../providers/tabs.dart';
+import '../widgets/tab_content.dart';
 
 /* 
     Authors: Kaustub Navalady, Last Edit: 12/28/19
@@ -14,7 +15,8 @@ class CircularTabs extends StatefulWidget {
 }
 
 class _CircularTabsState extends State<CircularTabs> {
-  CircularBottomNavigationController _navigationController; // Controls the tab navigation
+  CircularBottomNavigationController
+      _navigationController; // Controls the tab navigation
   var _selectedPos = 0;
 
   @override
@@ -39,6 +41,7 @@ class _CircularTabsState extends State<CircularTabs> {
             });
           },
         ),
+        TabContent(_selectedPos), // Content of each tab item
       ],
     );
   }
