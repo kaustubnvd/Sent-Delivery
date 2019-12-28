@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import './screens/home_screen.dart';
+
 /*
   Authors: Kaustub Navalady,  Last Edit: 12/28/19
 */
@@ -20,7 +22,7 @@ class SentApp extends StatelessWidget {
         primaryColor: Colors.white,
         accentColor: Colors.black,
       ),
-      home: null, 
+      home: HomeScreen(), 
       routes: {},
     );
   }
