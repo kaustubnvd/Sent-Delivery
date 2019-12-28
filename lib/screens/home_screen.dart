@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/tabs.dart';
 import '../widgets/app_drawer.dart';
+import '../widgets/bottom_panel.dart';
 
 /*
   Authors: Kaustub Navalady, Last Edit: 12/28/19
@@ -16,7 +17,7 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         drawer: AppDrawer(),
         backgroundColor: Colors.lightGreen,
-        body: null,
+        body: BottomPanel(),
       ),
     );
   }
