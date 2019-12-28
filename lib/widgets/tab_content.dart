@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+/*
+    Authors: Kaustub Navalady, Last Edit: 12/28/19
+*/
+
 class TabContent extends StatelessWidget {
   static const Send = 0;
   static const Carry = 1;

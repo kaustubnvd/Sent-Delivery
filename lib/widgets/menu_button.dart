@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+/*
+    Authors: Kaustub Navalady, Last Edit: 12/28/19
+*/
+
 class MenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
