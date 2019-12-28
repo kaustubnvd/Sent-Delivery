@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/tabs.dart';
+import '../widgets/app_drawer.dart';
+
+/*
+  Authors: Kaustub Navalady, Last Edit: 12/28/19
+*/
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -9,7 +14,7 @@ class HomeScreen extends StatelessWidget {
     return ChangeNotifierProvider( 
       create: (context) => Tabs(),
       child: Scaffold(
-        drawer: null,
+        drawer: AppDrawer(),
         backgroundColor: Colors.lightGreen,
         body: null,
       ),
