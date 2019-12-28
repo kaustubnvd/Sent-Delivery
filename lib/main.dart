@@ -1,23 +1,23 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(SentApp());
 
-class SentApp extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _SentAppState();
-  }
-}
-
-class _SentAppState extends State<SentApp> {
+class SentApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    // TODO: Change status bar color to black
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Sent"),
-        ),
+      theme: ThemeData(
+        primaryColor: Colors.white,
+        accentColor: Colors.black,
       ),
+      home: null, 
+      routes: {},
     );
   }
 }
