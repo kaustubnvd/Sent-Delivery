@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 12/28/19
+    Authors: Kaustub Navalady, Last Edit: 01/01/20
 */
 
 class MenuButton extends StatelessWidget {
@@ -13,7 +13,7 @@ class MenuButton extends StatelessWidget {
         child: Icon(Icons.menu),
         onPressed: () => Scaffold.of(context).openDrawer(),
         backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Theme.of(context).accentColor,
+        foregroundColor: Colors.black,
       ),
     );
   }

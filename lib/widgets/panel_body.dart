@@ -5,27 +5,24 @@ import '../widgets/expand_button.dart';
 import '../widgets/circular_tabs.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 12/28/19
+    Authors: Kaustub Navalady, Last Edit: 01/01/20
 */
 
 class PanelBody extends StatelessWidget {
-  final bool panelOpen;
-  final PanelController panelController;
+  final bool _panelOpen;
+  final PanelController _panelController;
 
-  PanelBody(this.panelController, this.panelOpen); // TODO: Create a provider for these instance variables
+  PanelBody(this._panelController, this._panelOpen);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        ExpandButton(panelController),
+        ExpandButton(),
         SizedBox(
-          height: panelOpen ? 30 : 5,
+          height: _panelOpen ? 30 : 5,
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: CircularTabs(),
-        ),
+        CircularTabs(_panelController)
       ],
     );
   }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../widgets/menu_button.dart';
 import '../widgets/panel_body.dart';
+import '../providers/panel.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 12/28/19
+    Authors: Kaustub Navalady, Last Edit: 01/01/20
 */
 
 class BottomPanel extends StatefulWidget {
@@ -14,24 +17,36 @@ class BottomPanel extends StatefulWidget {
 }
 
 class _BottomPanelState extends State<BottomPanel> {
-  var _panelController = PanelController(); // Controls the sizing of the panel
-  var _panelOpen = false;
+  // Controls the sizing of the panel
+  PanelController _panelController;
 
   // Adjusts the margins in the panel to avoid clipping
   void adjustPanel(double val) {
     if (0 <= val && val <= .90) {
       setState(() {
-        _panelOpen = false;
+        Provider.of<Panel>(context, listen: false).setPanelOpen(false);
+        SystemChannels.textInput
+            .invokeMethod('TextInput.hide'); // Hides soft-keyboard
       });
     } else {
       setState(() {
-        _panelOpen = true;
+        Provider.of<Panel>(context, listen: false).setPanelOpen(true);
+        SystemChannels.textInput
+            .invokeMethod('TextInput.show'); // Shows soft-keyboard
       });
     }
   }
 
   @override
+  void initState() {
+    super.initState();
+    _panelController =
+        Provider.of<Panel>(context, listen: false).panelController;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var _panelOpen = Provider.of<Panel>(context).panelOpen;
     return SlidingUpPanel(
       // Body == Content behind the panel
       body: Column(
@@ -53,7 +68,7 @@ class _BottomPanelState extends State<BottomPanel> {
       ),
       color: Theme.of(context).primaryColor,
       minHeight: 400,
-      maxHeight: MediaQuery.of(context).size.height,
+      maxHeight: MediaQuery.of(context).size.height, // Device Height
     );
   }
 }

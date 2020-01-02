@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+import '../widgets/sender/sender_tab.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 12/28/19
+    Authors: Kaustub Navalady, Last Edit: 01/01/20
 */
 
 class TabContent extends StatelessWidget {
   static const Send = 0;
   static const Carry = 1;
   static const Receive = 2;
-  final int selectedPos;
-  
-  TabContent(this.selectedPos);
+  final int _selectedPos;
+  final PanelController _panelController;
+
+  TabContent(this._selectedPos, this._panelController);
 
   @override
   Widget build(BuildContext context) {
-    // Dummy Containers
-    switch (selectedPos) {
+    switch (_selectedPos) {
       case Send:
-        return Container(
-            height: 300,
-            width: double.infinity,
-            child: null,
-            color: Colors.transparent);
-          break;
+        return SenderTab(_panelController);
+        break;
       case Carry:
         return Container(
             height: 300,

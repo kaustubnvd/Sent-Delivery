@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:circular_bottom_navigation/circular_bottom_navigation.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../providers/tabs.dart';
 import '../widgets/tab_content.dart';
 
 /* 
-    Authors: Kaustub Navalady, Last Edit: 12/28/19
+    Authors: Kaustub Navalady, Last Edit: 01/01/20
 */
 
 class CircularTabs extends StatefulWidget {
+  final PanelController _panelController;
+
+  CircularTabs(this._panelController);
+
   @override
   _CircularTabsState createState() => _CircularTabsState();
 }
@@ -41,7 +46,8 @@ class _CircularTabsState extends State<CircularTabs> {
             });
           },
         ),
-        TabContent(_selectedPos), // Content of each tab item
+        TabContent(
+            _selectedPos, widget._panelController), // Content of each tab item
       ],
     );
   }
