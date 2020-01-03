@@ -39,6 +39,7 @@ class SentApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
             brightness: Brightness.light,
             primaryColor: Colors.white,

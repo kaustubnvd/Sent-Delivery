@@ -1,0 +1,91 @@
+{
+  "project_info": {
+    "project_number": "678356221803",
+    "firebase_url": "https://sent-433cb.firebaseio.com",
+    "project_id": "sent-433cb",
+    "storage_bucket": "sent-433cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678356221803:android:0a5ab804627bb2381d962e",
+        "android_client_info": {
+          "package_name": "com.example.sent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "678356221803-29trhpao9m81fm1pef7c38h273lthsiq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkjaYlKQtbwtacKopbqP37NpayIm4_hmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "678356221803-29trhpao9m81fm1pef7c38h273lthsiq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "678356221803-g1kbnnc6r1tnb77p89n9ou54qn40ufju.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.teamsent.sent"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678356221803:android:f24dbcae857f7e5f1d962e",
+        "android_client_info": {
+          "package_name": "com.teamsent.sent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "678356221803-6nid4pflgk7lo9oigt175rt21npu68su.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.teamsent.sent",
+            "certificate_hash": "cb6f13f63ad6aca294520bbedcd0955d081df8fb"
+          }
+        },
+        {
+          "client_id": "678356221803-29trhpao9m81fm1pef7c38h273lthsiq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkjaYlKQtbwtacKopbqP37NpayIm4_hmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "678356221803-29trhpao9m81fm1pef7c38h273lthsiq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "678356221803-g1kbnnc6r1tnb77p89n9ou54qn40ufju.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.teamsent.sent"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
