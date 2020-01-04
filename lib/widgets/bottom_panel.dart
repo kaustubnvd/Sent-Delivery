@@ -67,7 +67,7 @@ class _BottomPanelState extends State<BottomPanel> {
         topRight: Radius.circular(25),
       ),
       color: Theme.of(context).primaryColor,
-      minHeight: 400,
+      minHeight: .45 * MediaQuery.of(context).size.height,
       maxHeight: MediaQuery.of(context).size.height, // Device Height
     );
   }
