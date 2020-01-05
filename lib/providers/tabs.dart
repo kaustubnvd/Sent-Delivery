@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:circular_bottom_navigation/tab_item.dart';
 
 /*
-  Authors: Kaustub Navalady, Last Edit: 01/01/20
+  Authors: Kaustub Navalady, Last Edit: 01/04/20
 */
 
 class Tabs with ChangeNotifier {
@@ -86,6 +86,31 @@ class Tabs with ChangeNotifier {
     );
     notifyListeners();
   }
+
+/*
+  Carrier Tab
+*/
+
+var _notified = false;
+var _carrierTab = true;
+
+bool get notified {
+  return _notified;
+}
+
+void toggleNotified() {
+  _notified = !_notified;
+  notifyListeners();
+}
+
+bool get carrierTab {
+  return _carrierTab;
+}
+
+void setCarrierTab (bool carrier) {
+  _carrierTab = carrier;
+  notifyListeners();
+}
 
 /*
   Receiver Tab

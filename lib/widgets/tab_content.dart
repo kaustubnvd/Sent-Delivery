@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../widgets/sender/sender_tab.dart';
+import '../widgets/carrier/carrier_tab.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 01/01/20
+    Authors: Kaustub Navalady, Last Edit: 01/04/20
 */
 
 class TabContent extends StatelessWidget {
@@ -23,11 +24,7 @@ class TabContent extends StatelessWidget {
         return SenderTab(_panelController);
         break;
       case Carry:
-        return Container(
-            height: 300,
-            width: double.infinity,
-            child: null,
-            color: Colors.transparent);
+        return CarrierTab();
         break;
       case Receive:
         return Container(

@@ -8,7 +8,7 @@ import '../widgets/panel_body.dart';
 import '../providers/panel.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 01/01/20
+    Authors: Kaustub Navalady, Last Edit: 01/04/20
 */
 
 class BottomPanel extends StatefulWidget {
@@ -19,6 +19,8 @@ class BottomPanel extends StatefulWidget {
 class _BottomPanelState extends State<BottomPanel> {
   // Controls the sizing of the panel
   PanelController _panelController;
+  double screenSize;
+  var init = false;
 
   // Adjusts the margins in the panel to avoid clipping
   void adjustPanel(double val) {
@@ -40,8 +42,18 @@ class _BottomPanelState extends State<BottomPanel> {
   @override
   void initState() {
     super.initState();
+    adjustPanel(0); // weird bug appeared
     _panelController =
         Provider.of<Panel>(context, listen: false).panelController;
+  }
+
+  @override
+  void didChangeDependencies() {
+    if(!init) {
+    init = true;
+    screenSize = MediaQuery.of(context).size.height;
+    }
+    super.didChangeDependencies();
   }
 
   @override
@@ -67,8 +79,8 @@ class _BottomPanelState extends State<BottomPanel> {
         topRight: Radius.circular(25),
       ),
       color: Theme.of(context).primaryColor,
-      minHeight: .45 * MediaQuery.of(context).size.height,
-      maxHeight: MediaQuery.of(context).size.height, // Device Height
+      minHeight: (.45 * screenSize).toInt().toDouble(),
+      maxHeight: screenSize, // Device Height
     );
   }
 }
