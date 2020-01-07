@@ -3,9 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import './screens/home_screen.dart';
+import './screens/auth_screen_login.dart';
+import './screens/splash_screen.dart';
+import './screens/auth_screen_signup.dart';
 import './providers/tabs.dart';
 import './providers/panel.dart';
 import './providers/orders.dart';
+import './providers/auth.dart';
 
 /*
   Authors: Kaustub Navalady,  Last Edit: 01/01/20
@@ -29,6 +33,9 @@ class SentApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
+          value: Auth(),
+        ),
+        ChangeNotifierProvider.value(
           value: Tabs(),
         ),
         ChangeNotifierProvider.value(
@@ -38,16 +45,31 @@ class SentApp extends StatelessWidget {
           value: Orders(),
         )
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            brightness: Brightness.light,
-            primaryColor: Colors.white,
-            accentColor: Colors.deepPurpleAccent,
-            cursorColor: Colors.black),
-        home: HomeScreen(),
-        routes: {},
-      ),
+child: Consumer<Auth>(
+       builder: (ctx, auth, child) => MaterialApp(
+         debugShowCheckedModeBanner: false,
+         theme: ThemeData(
+             brightness: Brightness.light,
+             primaryColor: Colors.white,
+             accentColor: Colors.deepPurpleAccent,
+             cursorColor: Colors.black),
+         home: auth.isAuth
+             ? HomeScreen()
+             : FutureBuilder(
+                 future: auth.tryAutoLogin(),
+                 builder: (ctx, authResultSnapshot) =>
+                     authResultSnapshot.connectionState ==
+                             ConnectionState.waiting
+                         ? SplashScreen()
+                         : AuthScreenSignup()),
+         routes: {
+           AuthScreenLogin.routeName: (ctx) => AuthScreenLogin(),
+           AuthScreenSignup.routeName: (ctx) => AuthScreenSignup(),
+           HomeScreen.routeName: (ctx) => HomeScreen(),
+         },
+       ),
+     ),
+
     );
   }
 }

@@ -13,6 +13,7 @@ import '../widgets/bottom_panel.dart';
 // Cursor not moving where intended
 
 class HomeScreen extends StatelessWidget {
+  static const routeName = '/home-screen';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
