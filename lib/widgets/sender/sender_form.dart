@@ -9,7 +9,7 @@ import '../../widgets/package_title_field.dart';
 import '../../widgets/package_description_field.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 01/01/20
+    Authors: Kaustub Navalady, Last Edit: 01/09/20 (Minor name changes and constructor parameter additions)
 */
 
 class SenderForm extends StatefulWidget {
@@ -107,6 +107,7 @@ class _SenderFormState extends State<SenderForm> {
 
   @override
   Widget build(BuildContext context) {
+    var _titleController = Provider.of<Tabs>(context).senderTitleController;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       child: Container(
@@ -117,9 +118,9 @@ class _SenderFormState extends State<SenderForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ChosenUser(),
+              ChosenUser(sender: false),
               formSpacing(),
-              PackageTitleField(_descFocusNode, newOrderData),
+              PackageTitleField(_descFocusNode, newOrderData, _titleController, true),
               formSpacing(),
               PackageDescriptionField(_descFocusNode, newOrderData),
               formSpacing(),
@@ -129,7 +130,7 @@ class _SenderFormState extends State<SenderForm> {
               formSpacing(),
               cameraIconButton(),
               formSpacing(),
-              MakeRequestButton(_saveForm),
+              MakeRequestButton(_saveForm, true),
             ],
           ),
         ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:circular_bottom_navigation/tab_item.dart';
 
 /*
-  Authors: Kaustub Navalady, Last Edit: 01/04/20
+  Authors: Kaustub Navalady, Last Edit: 01/09/20 (Added Receiver Tab Data, minor name changes)
 */
 
 class Tabs with ChangeNotifier {
@@ -34,10 +34,10 @@ class Tabs with ChangeNotifier {
   */
 
   var _receiverChosen = false;
+  String _receiverName;
   var _senderTitleController = TextEditingController();
   var _senderDescController = TextEditingController();
-  String _receiverName;
-
+  
   List<TabItem> get tabItems {
     return [..._tabItems];
   }
@@ -68,11 +68,11 @@ class Tabs with ChangeNotifier {
     _saveFieldState(desc, _senderDescController);
   }
 
-  TextEditingController get titleController {
+  TextEditingController get senderTitleController {
     return _senderTitleController;
   }
 
-  TextEditingController get descController {
+  TextEditingController get senderDescController {
     return _senderDescController;
   }
 
@@ -115,5 +115,35 @@ void setCarrierTab (bool carrier) {
 /*
   Receiver Tab
 */
+
+  var _senderChosen = false;
+  String _senderName;
+  var _receiverTitleController = TextEditingController();
+
+   void setSenderChosen(bool chosen) {
+    _senderChosen = chosen;
+    notifyListeners();
+  }
+
+  bool get senderChosen {
+    return _senderChosen;
+  }
+
+  void setSenderName(String name) {
+    _senderName = name;
+    notifyListeners();
+  }
+
+  String get senderName {
+    return _senderName;
+  }
+  
+  TextEditingController get receiverTitleController {
+    return _receiverTitleController;
+  }
+
+  void setReceiverTempTitle(String title) {
+    _saveFieldState(title, _receiverTitleController);
+  }
 
 }

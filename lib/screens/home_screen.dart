@@ -11,6 +11,7 @@ import '../widgets/bottom_panel.dart';
 // Form Text Disappearing
 // Keyboard not closing properly
 // Cursor not moving where intended
+// setState being called during build (provider calls)
 
 class HomeScreen extends StatelessWidget {
   static const routeName = '/home-screen';

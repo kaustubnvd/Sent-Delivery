@@ -3,9 +3,10 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../widgets/sender/sender_tab.dart';
 import '../widgets/carrier/carrier_tab.dart';
+import '../widgets/receiver/receiver_tab.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 01/04/20
+    Authors: Kaustub Navalady, Last Edit: 01/09/20 (Added receiver tab)
 */
 
 class TabContent extends StatelessWidget {
@@ -27,18 +28,10 @@ class TabContent extends StatelessWidget {
         return CarrierTab();
         break;
       case Receive:
-        return Container(
-            height: 300,
-            width: double.infinity,
-            child: null,
-            color: Colors.transparent);
+        return ReceiverTab(_panelController);
         break;
       default:
-        return Container(
-            height: 300,
-            width: double.infinity,
-            child: null,
-            color: Colors.transparent);
+        return Container();
     }
   }
 }

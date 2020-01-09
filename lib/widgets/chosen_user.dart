@@ -4,10 +4,14 @@ import 'package:provider/provider.dart';
 import '../providers/tabs.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 01/01/20
+    Authors: Kaustub Navalady, Last Edit: 01/09/20 (Made widget reusable for receiver tab)
 */
 
 class ChosenUser extends StatelessWidget {
+  final bool sender;
+
+  ChosenUser({@required this.sender});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -28,14 +32,16 @@ class ChosenUser extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Receiver:",
+                  sender ? "Sender:" : "Receiver:",
                   style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w300,
                       color: Theme.of(context).primaryColor),
                 ),
                 Text(
-                  "${Provider.of<Tabs>(context).receiverName}",
+                  sender
+                      ? "${Provider.of<Tabs>(context).senderName}"
+                      : "${Provider.of<Tabs>(context).receiverName}",
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -50,8 +56,13 @@ class ChosenUser extends StatelessWidget {
                 style: TextStyle(color: Colors.black45),
               ),
               onPressed: () {
-                Provider.of<Tabs>(context, listen: false)
-                    .setReceiverChosen(false);
+                if (!sender) {
+                  Provider.of<Tabs>(context, listen: false)
+                      .setReceiverChosen(false);
+                } else {
+                  Provider.of<Tabs>(context, listen: false)
+                      .setSenderChosen(false);
+                }
               },
             ),
           ],

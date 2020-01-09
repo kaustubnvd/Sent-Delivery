@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../providers/tabs.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 01/01/20
+    Authors: Kaustub Navalady, Last Edit: 01/09/20 (Made widget reusable for receiver tab, added font)
 */
 
 class SearchBar extends StatefulWidget {
   final _textEditingController = TextEditingController();
-  final _panelController;
+  final PanelController _panelController;
   final String _headingText;
+  final bool sender;
 
-  SearchBar(this._panelController, this._headingText);
+  SearchBar(this._panelController, this._headingText, {@required this.sender});
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -23,18 +25,12 @@ class _SearchBarState extends State<SearchBar> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        SizedBox(
-          height: 10,
-        ),
+        SizedBox(height: 10),
         Text(
           widget._headingText,
-          style: TextStyle(
-            fontSize: 20,
-          ),
+          style: TextStyle(fontSize: 20, fontFamily: "SFProDisplay"),
         ),
-        SizedBox(
-          height: 20,
-        ),
+        SizedBox(height: 20),
         Container(
           width: 380,
           child: TextField(
@@ -59,8 +55,14 @@ class _SearchBarState extends State<SearchBar> {
               ),
             ),
             onSubmitted: (String name) {
-              Provider.of<Tabs>(context, listen: false).setReceiverName(name);
-              Provider.of<Tabs>(context, listen: false).setReceiverChosen(true);
+              if (!widget.sender) {
+                Provider.of<Tabs>(context, listen: false).setReceiverName(name);
+                Provider.of<Tabs>(context, listen: false)
+                    .setReceiverChosen(true);
+              } else {
+                Provider.of<Tabs>(context, listen: false).setSenderName(name);
+                Provider.of<Tabs>(context, listen: false).setSenderChosen(true);
+              }
             },
           ),
         ),

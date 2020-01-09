@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/tabs.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 01/01/20
+    Authors: Kaustub Navalady, Last Edit: 01/08/20 (Minor variable name change)
 */
 
 class PackageDescriptionField extends StatefulWidget {
@@ -21,7 +21,7 @@ class PackageDescriptionField extends StatefulWidget {
 class _PackageDescriptionFieldState extends State<PackageDescriptionField> {
   @override
   Widget build(BuildContext context) {
-    var _descController = Provider.of<Tabs>(context).descController;
+    var _descController = Provider.of<Tabs>(context).senderDescController;
     return TextFormField(
       controller: _descController,
       validator: (value) {
