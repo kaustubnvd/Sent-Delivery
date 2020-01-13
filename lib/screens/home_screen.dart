@@ -4,7 +4,7 @@ import '../widgets/app_drawer.dart';
 import '../widgets/bottom_panel.dart';
 
 /*
-  Authors: Kaustub Navalady, Last Edit: 01/01/20
+  Authors: Kaustub Navalady, Last Edit: 01/09/20 (Made background transparent)
 */
 
 // Bugs:
@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
           false, // Prevents soft-keyboard from resizing content
       resizeToAvoidBottomPadding: false,
       drawer: AppDrawer(),
-      backgroundColor: Colors.lightGreen,
+      backgroundColor: Colors.transparent,
       body: GestureDetector(
           onTap: () {
             FocusScope.of(context).requestFocus(

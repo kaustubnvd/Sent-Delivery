@@ -12,7 +12,7 @@ import './providers/orders.dart';
 import './providers/auth.dart';
 
 /*
-  Authors: Kaustub Navalady,  Last Edit: 01/01/20
+  Authors: Kaustub Navalady,  Last Edit: 01/12/20 (Changed Theme accent color to cyan)
 */
 
 void main() {
@@ -51,7 +51,7 @@ child: Consumer<Auth>(
          theme: ThemeData(
              brightness: Brightness.light,
              primaryColor: Colors.white,
-             accentColor: Colors.deepPurpleAccent,
+             accentColor: Color.fromRGBO(0, 191, 219, 1),
              cursorColor: Colors.black),
          home: auth.isAuth
              ? HomeScreen()

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -8,7 +9,7 @@ import '../widgets/panel_body.dart';
 import '../providers/panel.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 01/04/20
+    Authors: Kaustub Navalady, Last Edit: 01/09/20 (Added Google Maps)
 */
 
 class BottomPanel extends StatefulWidget {
@@ -49,9 +50,9 @@ class _BottomPanelState extends State<BottomPanel> {
 
   @override
   void didChangeDependencies() {
-    if(!init) {
-    init = true;
-    screenSize = MediaQuery.of(context).size.height;
+    if (!init) {
+      init = true;
+      screenSize = MediaQuery.of(context).size.height;
     }
     super.didChangeDependencies();
   }
@@ -61,14 +62,22 @@ class _BottomPanelState extends State<BottomPanel> {
     var _panelOpen = Provider.of<Panel>(context).panelOpen;
     return SlidingUpPanel(
       // Body == Content behind the panel
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(
         children: <Widget>[
-          MenuButton(), // Opens Side Drawer
-          SizedBox(
-            height: 300,
+          Container(
+            height: (.60 * screenSize).toInt().toDouble(),
+            child: GoogleMap(
+              initialCameraPosition: CameraPosition(
+                target: LatLng(30.2849, -97.7341),
+                zoom: 15,
+              ),
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              mapType: MapType.normal,
+              padding: EdgeInsets.only(bottom: 45),
+            ),
           ),
-          Center(child: Text("Google Maps")), // Placeholder
+          MenuButton(),
         ],
       ),
       controller: _panelController,

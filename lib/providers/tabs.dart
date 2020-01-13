@@ -7,11 +7,12 @@ import 'package:circular_bottom_navigation/tab_item.dart';
 
 class Tabs with ChangeNotifier {
   // List of the tab items (content of the circular tabs)
+  static const tabColor = Colors.black;
   final _tabItems = [
     TabItem(
       Icons.arrow_forward_ios,
       "Send",
-      Colors.black,
+      tabColor,
       labelStyle: TextStyle(
         fontWeight: FontWeight.bold,
       ),
@@ -19,13 +20,13 @@ class Tabs with ChangeNotifier {
     TabItem(
       Icons.airport_shuttle,
       "Carry",
-      Colors.black,
+      tabColor,
       labelStyle: TextStyle(fontWeight: FontWeight.bold),
     ),
     TabItem(
       Icons.person_pin_circle,
       "Receive",
-      Colors.black,
+      tabColor,
     ),
   ];
 
