@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import './screens/home_screen.dart';
-import './screens/auth_screen_login.dart';
-import './screens/splash_screen.dart';
-import './screens/auth_screen_signup.dart';
 import './providers/tabs.dart';
 import './providers/panel.dart';
 import './providers/orders.dart';
-import './providers/auth.dart';
-
+import './screens/root_screen.dart';
+import './screens/auth_screen.dart';
+import './screens/otp_screen.dart';
+import './screens/user_info_screen.dart';
+import './screens/home_screen.dart';
 /*
-  Authors: Kaustub Navalady,  Last Edit: 01/12/20 (Changed Theme accent color to cyan)
+  Authors: Kaustub Navalady,  Last Edit: 01/14/20 (Removed unnecessary authentication logic)
 */
 
 void main() {
@@ -33,9 +32,6 @@ class SentApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
-          value: Auth(),
-        ),
-        ChangeNotifierProvider.value(
           value: Tabs(),
         ),
         ChangeNotifierProvider.value(
@@ -45,31 +41,21 @@ class SentApp extends StatelessWidget {
           value: Orders(),
         )
       ],
-child: Consumer<Auth>(
-       builder: (ctx, auth, child) => MaterialApp(
-         debugShowCheckedModeBanner: false,
-         theme: ThemeData(
-             brightness: Brightness.light,
-             primaryColor: Colors.white,
-             accentColor: Color.fromRGBO(0, 191, 219, 1),
-             cursorColor: Colors.black),
-         home: auth.isAuth
-             ? HomeScreen()
-             : FutureBuilder(
-                 future: auth.tryAutoLogin(),
-                 builder: (ctx, authResultSnapshot) =>
-                     authResultSnapshot.connectionState ==
-                             ConnectionState.waiting
-                         ? SplashScreen()
-                         : AuthScreenSignup()),
-         routes: {
-           AuthScreenLogin.routeName: (ctx) => AuthScreenLogin(),
-           AuthScreenSignup.routeName: (ctx) => AuthScreenSignup(),
-           HomeScreen.routeName: (ctx) => HomeScreen(),
-         },
-       ),
-     ),
-
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            brightness: Brightness.light,
+            primaryColor: Colors.white,
+            accentColor: Color.fromRGBO(0, 191, 219, 1),
+            cursorColor: Colors.black),
+        home: RootScreen(),
+        routes: {
+          AuthScreen.routeName: (ctx) => AuthScreen(),
+          OTPScreen.routeName: (ctx) => OTPScreen(),
+          UserInfoScreen.routeName: (ctx) => UserInfoScreen(),
+          HomeScreen.routeName: (ctx) => HomeScreen(),
+        },
+      ),
     );
   }
 }
