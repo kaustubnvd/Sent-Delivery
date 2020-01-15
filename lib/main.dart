@@ -10,8 +10,10 @@ import './screens/auth_screen.dart';
 import './screens/otp_screen.dart';
 import './screens/user_info_screen.dart';
 import './screens/home_screen.dart';
+import './screens/settings_screen.dart';
+
 /*
-  Authors: Kaustub Navalady,  Last Edit: 01/14/20 (Removed unnecessary authentication logic)
+  Authors: Kaustub Navalady,  Last Edit: 01/15/20 (Added Settings to routes table)
 */
 
 void main() {
@@ -54,6 +56,7 @@ class SentApp extends StatelessWidget {
           OTPScreen.routeName: (ctx) => OTPScreen(),
           UserInfoScreen.routeName: (ctx) => UserInfoScreen(),
           HomeScreen.routeName: (ctx) => HomeScreen(),
+          SettingsScreen.routeName: (ctx) => SettingsScreen(),
         },
       ),
     );
