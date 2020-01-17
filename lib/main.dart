@@ -11,6 +11,7 @@ import './screens/otp_screen.dart';
 import './screens/user_info_screen.dart';
 import './screens/home_screen.dart';
 import './screens/settings_screen.dart';
+import './screens/card_auth_screen_square.dart';
 
 /*
   Authors: Kaustub Navalady,  Last Edit: 01/15/20 (Added Settings to routes table)
@@ -50,8 +51,10 @@ class SentApp extends StatelessWidget {
             primaryColor: Colors.white,
             accentColor: Color.fromRGBO(0, 191, 219, 1),
             cursorColor: Colors.black),
-        home: RootScreen(),
+        home: CardAuthScreen(),
+        //RootScreen(),
         routes: {
+          CardAuthScreen.routeName: (ctx) => CardAuthScreen(),
           AuthScreen.routeName: (ctx) => AuthScreen(),
           OTPScreen.routeName: (ctx) => OTPScreen(),
           UserInfoScreen.routeName: (ctx) => UserInfoScreen(),
