@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:circular_bottom_navigation/tab_item.dart';
+import 'package:sent/models/user.dart';
 
 /*
-  Authors: Kaustub Navalady, Last Edit: 01/09/20 (Added Receiver Tab Data, minor name changes)
+  Authors: Kaustub Navalady, Last Edit: 02/03/20 (Manages sender and receiver IDs)
 */
 
 class Tabs with ChangeNotifier {
@@ -36,6 +37,7 @@ class Tabs with ChangeNotifier {
 
   var _receiverChosen = false;
   String _receiverName;
+  String _receiverId;
   var _senderTitleController = TextEditingController();
   var _senderDescController = TextEditingController();
   
@@ -52,13 +54,22 @@ class Tabs with ChangeNotifier {
     return _receiverChosen;
   }
 
-  void setReceiverName(String name) {
-    _receiverName = name;
+  void setReceiverName(User user) {
+    _receiverName = user.displayName;
     notifyListeners();
   }
 
   String get receiverName {
     return _receiverName;
+  }
+
+  void setReceiverId(String uid) {
+    _receiverId = uid;
+    notifyListeners();
+  }
+
+  String get receiverId {
+    return _receiverId;
   }
 
   void setSenderTempTitle(String title) {
@@ -119,6 +130,7 @@ void setCarrierTab (bool carrier) {
 
   var _senderChosen = false;
   String _senderName;
+  String _senderId;
   var _receiverTitleController = TextEditingController();
 
    void setSenderChosen(bool chosen) {
@@ -130,13 +142,22 @@ void setCarrierTab (bool carrier) {
     return _senderChosen;
   }
 
-  void setSenderName(String name) {
-    _senderName = name;
+  void setSenderName(User user) {
+    _senderName = user.displayName;
     notifyListeners();
   }
 
   String get senderName {
     return _senderName;
+  }
+
+  void setSenderId(String uid) {
+    _senderId = uid;
+    notifyListeners();
+  }
+
+  String get senderId {
+    return _senderId;
   }
   
   TextEditingController get receiverTitleController {

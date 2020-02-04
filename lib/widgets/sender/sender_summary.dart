@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:sent/models/user.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../helpers/new_order.dart';
@@ -10,7 +13,7 @@ import '../../widgets/chosen_user.dart';
 import '../../widgets/summary_card.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 01/09/20 (File refactored and renamed)
+    Authors: Kaustub Navalady, Last Edit: 02/03/20 (Added functionality to initialize phase 0 order)
 */
 
 class SenderSummary extends StatefulWidget {
@@ -23,6 +26,8 @@ class SenderSummary extends StatefulWidget {
 }
 
 class _SenderSummaryState extends State<SenderSummary> {
+  User currentUser;
+  LocationData location;
   bool valid;
 
   bool validateForm(BuildContext context) {
@@ -40,23 +45,39 @@ class _SenderSummaryState extends State<SenderSummary> {
   }
 
   void saveForm() {
+    print(currentUser.uid);
     Provider.of<Orders>(context, listen: false).addOrder(
       Order(
           orderId: DateTime.now().toString(), // provided by firebase so remove
-          senderId: "Current User Id",
+          senderId: currentUser.uid,
           receiverId: Provider.of<Tabs>(context, listen: false)
-              .receiverName, // change name to ID
+              .receiverId, // change name to ID
           packageTitle: Provider.of<Tabs>(context, listen: false)
               .senderTitleController
               .text,
           packageDesc: Provider.of<Tabs>(context, listen: false)
               .senderDescController
               .text,
-          pickupLocation: "Current Location",
-          packageImage: true),
+          pickupLocation: GeoPoint(location.latitude, location.longitude),
+          packageImage: "https://firebase-storage.com"),
     );
   }
 
+    Future<void> _getUser() async {
+    final user = await User.getCurrentUser();
+    setState(() {
+      currentUser = user;
+    });
+  }
+
+  Future<void> _getUserLocation() async {
+    final locationData = await Location().getLocation();
+    setState(() {
+      location = locationData;
+    });
+  }
+
+  
   Widget makeRequestButton() {
     return Center(
       child: Container(
@@ -112,6 +133,8 @@ class _SenderSummaryState extends State<SenderSummary> {
   @override
   void initState() {
     valid = validateForm(context);
+    _getUser();
+    _getUserLocation();
     super.initState();
   }
 

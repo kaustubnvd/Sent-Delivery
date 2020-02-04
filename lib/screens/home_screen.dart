@@ -9,7 +9,6 @@ import '../widgets/bottom_panel.dart';
 
 // Bugs:
 // Form Text Disappearing
-// Keyboard not closing properly
 // Cursor not moving where intended
 // setState being called during build (provider calls)
 

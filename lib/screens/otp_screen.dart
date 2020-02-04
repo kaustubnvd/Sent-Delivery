@@ -3,15 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:sent/models/user.dart';
 
 import '../screens/home_screen.dart';
 import '../screens/user_info_screen.dart';
 
 /*
-  Authors: Kaustub Navalady, Last Edit: 01/14/20 
+  Authors: Kaustub Navalady, Last Edit: 01/21/20 (Added searchQueries field on user signup)
 */
 
 final usersRef = Firestore.instance.collection("users");
+final String timestamp = DateTime.now().toIso8601String();
+User currentUser;
 
 // Users can enter the 6-digit SMS code they receive
 class OTPScreen extends StatefulWidget {
@@ -33,17 +36,23 @@ class _OTPScreenState extends State<OTPScreen> {
 
     // Trys to sign in the user with the credentials
     FirebaseAuth.instance.signInWithCredential(credential).then((result) async {
+      final FirebaseUser _user = await FirebaseAuth.instance.currentUser();
       if (result.additionalUserInfo.isNewUser) {
-        final docRef = await usersRef.add({
+        await usersRef.document(_user.uid).setData({
+          "uid": _user.uid,
           "name": "",
+          "username": "",
           "phoneNumber": _phoneNumber,
           "rating": 5,
+          "timestamp": timestamp,
+          "searchQueries": [],
         });
         Navigator.of(context).pushReplacementNamed(UserInfoScreen.routeName,
-            arguments: docRef.documentID);
+            arguments: _user.uid);
       } else {
         Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
       }
+
     }).catchError((error) {
       showDialog(
           context: context,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:sent/models/user.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../summary_card.dart';
@@ -11,7 +12,7 @@ import '../../widgets/chosen_user.dart';
 
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 01/09/20
+    Authors: Kaustub Navalady, Last Edit: 02/03/20 (Added functionality to initialize phase 0 order)
 */
 
 class ReceiverSummary extends StatefulWidget {
@@ -26,6 +27,7 @@ class ReceiverSummary extends StatefulWidget {
 // Note: There is redundant code very similar to the Sender Summary
 
 class _ReceiverSummaryState extends State<ReceiverSummary> {
+  User currentUser;
   bool valid;
   var _newOrderData = NewOrder.receiverNewOrderData;
 
@@ -45,8 +47,8 @@ class _ReceiverSummaryState extends State<ReceiverSummary> {
       Order(
         orderId: _newOrderData["id"], // Will be provided by FireBase later
         senderId: Provider.of<Tabs>(context, listen: false)
-            .senderName, // change name to ID
-        receiverId: _newOrderData["receiver"],
+            .senderId, // change name to ID
+        receiverId: currentUser.uid,
         packageTitle: Provider.of<Tabs>(context, listen: false)
               .receiverTitleController
               .text,
@@ -109,9 +111,17 @@ class _ReceiverSummaryState extends State<ReceiverSummary> {
     );
   }
 
+    Future<void> _getUser() async {
+    final user = await User.getCurrentUser();
+    setState(() {
+      currentUser = user;
+    });
+  }
+
   @override
   void initState() {
     valid = validateForm(context);
+    _getUser();
     super.initState();
   }
 

@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:sent/models/user.dart';
 
 import '../../providers/orders.dart';
 import '../../providers/tabs.dart';
@@ -9,7 +12,7 @@ import '../../widgets/package_title_field.dart';
 import '../../widgets/package_description_field.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 01/09/20 (Minor name changes and constructor parameter additions)
+    Authors: Kaustub Navalady, Last Edit: 02/03/20 (Added functionality to initialize phase 0 order)
 */
 
 class SenderForm extends StatefulWidget {
@@ -18,15 +21,18 @@ class SenderForm extends StatefulWidget {
 }
 
 class _SenderFormState extends State<SenderForm> {
+  User currentUser;
+  LocationData location;
   final _descFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
   var newOrderData = {
-    "id": DateTime.now().toString(),
-    "sender": "Current User Id",
+    "id": DateTime.now().toIso8601String(),
+    "sender": null,
+    "receiver": null,
     "title": null,
     "description": null,
     "location": "Current Location",
-    "photo": true,
+    "photo": "https://firebase-storage.com",
   };
 
   bool _saveForm() {
@@ -36,12 +42,11 @@ class _SenderFormState extends State<SenderForm> {
       Provider.of<Orders>(context, listen: false).addOrder(
         Order(
           orderId: newOrderData["id"], // Will be provided by FireBase later
-          senderId: newOrderData["sender"],
-          receiverId: Provider.of<Tabs>(context, listen: false)
-              .receiverName, // change name to ID
+          senderId: currentUser.uid,
+          receiverId: Provider.of<Tabs>(context, listen: false).receiverId, // change name to ID
           packageTitle: newOrderData["title"],
           packageDesc: newOrderData["description"],
-          pickupLocation: newOrderData["location"],
+          pickupLocation: GeoPoint(location.latitude, location.longitude),
           packageImage: newOrderData["photo"],
         ),
       );
@@ -99,6 +104,27 @@ class _SenderFormState extends State<SenderForm> {
     );
   }
 
+  Future<void> _getUser() async {
+    final user = await User.getCurrentUser();
+    setState(() {
+      currentUser = user;
+    });
+  }
+
+  Future<void> _getUserLocation() async {
+    final locationData = await Location().getLocation();
+    setState(() {
+      location = locationData;
+    });
+  }
+
+  @override
+  void initState() {
+    _getUser();
+    _getUserLocation();
+    super.initState();
+  }
+
   @override
   void dispose() {
     _descFocusNode.dispose();
@@ -120,7 +146,8 @@ class _SenderFormState extends State<SenderForm> {
             children: <Widget>[
               ChosenUser(sender: false),
               formSpacing(),
-              PackageTitleField(_descFocusNode, newOrderData, _titleController, true),
+              PackageTitleField(
+                  _descFocusNode, newOrderData, _titleController, true),
               formSpacing(),
               PackageDescriptionField(_descFocusNode, newOrderData),
               formSpacing(),

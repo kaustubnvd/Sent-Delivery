@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:square_in_app_payments/in_app_payments.dart';
 import 'package:square_in_app_payments/models.dart';
@@ -12,7 +13,7 @@ String getShippingCost() => (shippingCost / 100).toStringAsFixed(2);
 class CardAuthScreen extends StatefulWidget {
   static const routeName = '/card-auth-screen';
 
-  @override
+  @override 
   _CardAuthScreenState createState() => _CardAuthScreenState();
 }
 
@@ -61,40 +62,32 @@ class _CardAuthScreenState extends State<CardAuthScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pay'),
+        title: Text('Payment'),
       ),
       drawer: AppDrawer(),
-      backgroundColor: Theme.of(context).backgroundColor,
-      body: Center(
+      backgroundColor: Theme.of(context).primaryColor,
+      body: Container(
+        height: 700,
+        width: MediaQuery.of(context).size.width,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              width: 100,
-              child: RaisedButton(
-                onPressed: _initSquarePayment,
-                textColor: Theme.of(context).accentColor,
-                child: Row(
-                  children: <Widget>[
-                    const Icon(Icons.payment),
-                    const Text(
-                      'Pay',
-                      style: TextStyle(
-                        fontSize: 23,
-                      ),
-                    )
-                  ],
-                ),
+              height: 500,
+            ),
+            RaisedButton(
+              padding: EdgeInsets.symmetric(horizontal: 100, vertical: 5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
               ),
-            )
+              onPressed: _initSquarePayment,
+              textColor: Theme.of(context).primaryColor,
+              child: Text("Add Card"),
+              color: Theme.of(context).accentColor,
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-
-
-
-
-

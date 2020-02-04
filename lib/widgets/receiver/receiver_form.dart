@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:sent/models/user.dart';
 
 import '../../providers/tabs.dart';
 import '../../providers/orders.dart';
@@ -11,7 +13,7 @@ import '../../widgets/make_request_button.dart';
 import '../../helpers/new_order.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 01/09/20
+    Authors: Kaustub Navalady, Last Edit: 02/03/20 (Added functionality to initialize phase 0 order)
 */
 
 class ReceiverForm extends StatefulWidget {
@@ -20,6 +22,8 @@ class ReceiverForm extends StatefulWidget {
 }
 
 class _ReceiverFormState extends State<ReceiverForm> {
+  User currentUser;
+  LocationData location;
   final _nextFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
   var _schoolChosen = false;
@@ -55,8 +59,8 @@ class _ReceiverFormState extends State<ReceiverForm> {
         Order(
           orderId: _newOrderData["id"], // Will be provided by FireBase later
           senderId: Provider.of<Tabs>(context, listen: false)
-              .senderName, // change name to ID
-          receiverId: _newOrderData["receiver"],
+              .senderId, // change name to ID
+          receiverId: currentUser.uid,
           packageTitle: _newOrderData["title"],
           schoolName: _newOrderData["school"],
           dropoffLocation: _newOrderData["location"],
@@ -312,11 +316,19 @@ class _ReceiverFormState extends State<ReceiverForm> {
     }
   }
 
+  Future<void> _getUser() async {
+    final user = await User.getCurrentUser();
+    setState(() {
+      currentUser = user;
+    });
+  }
+
   @override
   void initState() {
     if (NewOrder.receiverNewOrderData["school"] != null) {
       _schoolChosen = true;
     }
+    _getUser();
     super.initState();
   }
 

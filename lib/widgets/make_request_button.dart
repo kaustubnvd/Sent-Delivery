@@ -36,15 +36,14 @@ class _MakeRequestButtonState extends State<MakeRequestButton> {
           child: Text("Make Request"),
           textColor: Theme.of(context).primaryColor,
           color: Theme.of(context).accentColor,
-          onPressed: () {
+          onPressed: () async {
             if (widget._saveForm()) {
               Provider.of<Tabs>(context, listen: false)
                   .setReceiverChosen(false);
               Provider.of<Tabs>(context, listen: false).setSenderTempTitle("");
               Provider.of<Tabs>(context, listen: false).setSenderTempDesc("");
               Provider.of<Tabs>(context, listen: false).setSenderChosen(false);
-              Provider.of<Tabs>(context, listen: false)
-                  .setReceiverTempTitle("");
+              Provider.of<Tabs>(context, listen: false).setReceiverTempTitle("");
               NewOrder.reset();
               Navigator.pushReplacementNamed(context, '/');
               showDialog(

@@ -9,7 +9,7 @@ import '../widgets/panel_body.dart';
 import '../providers/panel.dart';
 
 /*
-    Authors: Kaustub Navalady, Last Edit: 01/09/20 (Added Google Maps)
+    Authors: Kaustub Navalady, Last Edit: 01/15/20 (Fixed Keyboard Bug)
 */
 
 class BottomPanel extends StatefulWidget {
@@ -28,14 +28,10 @@ class _BottomPanelState extends State<BottomPanel> {
     if (0 <= val && val <= .90) {
       setState(() {
         Provider.of<Panel>(context, listen: false).setPanelOpen(false);
-        SystemChannels.textInput
-            .invokeMethod('TextInput.hide'); // Hides soft-keyboard
       });
     } else {
       setState(() {
         Provider.of<Panel>(context, listen: false).setPanelOpen(true);
-        SystemChannels.textInput
-            .invokeMethod('TextInput.show'); // Shows soft-keyboard
       });
     }
   }
@@ -82,6 +78,10 @@ class _BottomPanelState extends State<BottomPanel> {
       ),
       controller: _panelController,
       onPanelSlide: (double val) => adjustPanel(val),
+      onPanelClosed: () {
+        SystemChannels.textInput.invokeMethod('TextInput.hide');
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
       panel: PanelBody(_panelController, _panelOpen), // Content of panel
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(25),

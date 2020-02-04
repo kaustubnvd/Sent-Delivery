@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sent/screens/otp_screen.dart';
 
 import '../screens/home_screen.dart';
 
@@ -7,7 +8,8 @@ import '../screens/home_screen.dart';
   Authors: Kaustub Navalady, Last Edit: 01/14/20 
 */
 
-final _usersRef = Firestore.instance.collection("users"); // User's collection in Firestore
+final _usersRef =
+    Firestore.instance.collection("users"); // User's collection in Firestore
 
 // First time users enter their info (Name, card details, etc.)
 class UserInfoScreen extends StatefulWidget {
@@ -20,6 +22,18 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   final _form = GlobalKey<FormState>();
   String _uid; // User ID
   String _name;
+  String _username;
+  var _nameAvailable = false;
+
+  List<String> setSearchParams(String name) {
+    List<String> caseSearchList = List();
+    String temp = "";
+    for (int i = 0; i < name.length; i++) {
+      temp = temp + name[i];
+      caseSearchList.add(temp);
+    }
+    return caseSearchList;
+  }
 
   bool _saveForm() {
     final isValid = _form.currentState.validate();
@@ -28,6 +42,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
       _usersRef.document("$_uid").get().then((doc) {
         var _userData = doc.data;
         _userData["name"] = _name;
+        _userData["username"] = _username;
+        _userData["searchQueries"] = setSearchParams(_name);
         _usersRef.document("$_uid").setData(_userData);
       }).catchError((error) => print(error.toString()));
       return true;
@@ -48,7 +64,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               SizedBox(height: 100),
               Center(
                 child: Text(
-                  "Registration",
+                  "Set up your Profile",
                   style: TextStyle(
                       fontFamily: "SFProDisplay",
                       fontSize: 18,
@@ -59,10 +75,19 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0),
                 child: Text(
-                  "Enter your first and last name. You can skip the card details, but they are required to properly use the app.",
+                  "Enter your first and last name. Also enter a username so that other users can easily find you",
                   textAlign: TextAlign.center,
                 ),
               ),
+              SizedBox(height: 10),
+              Center(
+                  child: CircleAvatar(
+                radius: 60,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FittedBox(child: Text("Add Profile Pic")),
+                ),
+              )),
               Form(
                 key: _form,
                 child: Column(
@@ -91,32 +116,49 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                       ),
                     ),
                     SizedBox(height: 5),
-                    Divider(),
-                    SizedBox(height: 5),
-                    /*
-                     Card detail inputs are dummy fields at the moment
-                    */
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       child: TextFormField(
                         decoration: InputDecoration(
-                          labelText: "Card Number",
-                          labelStyle: TextStyle(color: Colors.black),
-                          enabledBorder: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          labelText: "Expiry Date",
-                          labelStyle: TextStyle(color: Colors.black),
-                          enabledBorder: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(),
-                        ),
+                            prefixText: "@",
+                            labelText: "Username",
+                            labelStyle: TextStyle(color: Colors.black),
+                            enabledBorder: OutlineInputBorder(),
+                            focusedBorder: OutlineInputBorder(),
+                            suffixIcon: _nameAvailable
+                                ? Icon(
+                                    Icons.check_circle,
+                                    color: Colors.green,
+                                  )
+                                : Icon(
+                                    Icons.highlight_off,
+                                    color: Colors.red,
+                                  )),
+                        onChanged: (val) async {
+                          final QuerySnapshot snapshot = await usersRef
+                              .where("username", isEqualTo: "@" + val)
+                              .getDocuments();
+                          if (snapshot.documents.isNotEmpty || val.length < 5) {
+                            setState(() {
+                              _nameAvailable = false;
+                            });
+                          } else if (val.length >= 5) {
+                            setState(() {
+                              _nameAvailable = true;
+                            });
+                          }
+                        },
+                        validator: (value) {
+                          if (value.length < 5) {
+                            return "This username is too short.";
+                          }
+                          return _nameAvailable
+                              ? null
+                              : "This username is already taken.";
+                        },
+                        onSaved: (text) {
+                          _username = "@" + text;
+                        },
                       ),
                     ),
                   ],
@@ -130,12 +172,13 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                 ),
                 color: Theme.of(context).accentColor,
                 child: Text(
-                  "Register",
+                  "Create Account",
                   style: TextStyle(color: Theme.of(context).primaryColor),
                 ),
                 onPressed: () {
                   if (_saveForm()) {
-                    Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+                    Navigator.of(context)
+                        .pushReplacementNamed(HomeScreen.routeName);
                   }
                 },
               ),
